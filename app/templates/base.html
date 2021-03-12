@@ -1,0 +1,36 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}
+    {% if title %}
+    {{ title }} - RecipeBook
+    {% else %}
+    RecipeBook - Welcome!
+    {% endif %}
+{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='styles/main.css') }}">
+{% endblock %}
+
+{% block navbar %}
+    <div class="navbar navbar-default">RecipeBook:
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('new_recipe') }}">New recipe</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}

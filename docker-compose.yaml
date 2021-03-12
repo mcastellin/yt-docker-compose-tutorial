@@ -1,0 +1,56 @@
+version: "3.9"
+services:
+  edge:
+    image: nginx:latest
+    depends_on:
+      - app
+    volumes:
+      - ./nginx_default.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - 80:80
+    networks:
+      - fe_network
+
+  app:
+    build:
+      context: .
+    image: recipebook:latest
+    container_name: myapp
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - 5000:5000
+    environment:
+      - DATABASE_URL=mysql+pymysql://user:secret@db:3306/recipebook
+    command: bash -c "flask db upgrade && flask run"
+    networks:
+      - fe_network
+      - be_network
+  
+  db:
+    image: mysql:5.7
+    healthcheck:
+      test: echo "SELECT 1" | mysql -u user -psecret
+      start_period: 4s
+      retries: 3
+      interval: 10s
+      timeout: 2s
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=secret
+      - MYSQL_DATABASE=recipebook
+    volumes:
+      - db_data_vol:/var/lib/mysql/
+    networks:
+      - be_network
+
+volumes:
+  db_data_vol:
+    external: true
+  
+networks:
+  fe_network:
+  be_network:
+    internal: true

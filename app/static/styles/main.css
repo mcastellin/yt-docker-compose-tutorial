@@ -1,0 +1,11 @@
+textarea#ingredients {
+    height: 150px;
+}
+
+textarea#directions {
+    height: 400px;
+}
+
+img {
+    max-width: 500px;
+}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<h1>Edit or Create Recipe</h1>
+
+<div class="row">
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}
