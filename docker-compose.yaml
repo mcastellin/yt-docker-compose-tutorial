@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   edge:
-    image: nginx:latest
+    image: nginx:1.19
     depends_on:
       - app
     volumes:
@@ -15,7 +15,7 @@ services:
     build:
       context: .
     image: recipebook:latest
-    container_name: myapp
+    container_name: recipebook
     depends_on:
       db:
         condition: service_healthy
@@ -42,12 +42,12 @@ services:
       - MYSQL_PASSWORD=secret
       - MYSQL_DATABASE=recipebook
     volumes:
-      - db_data_vol:/var/lib/mysql/
+      - db_data:/var/lib/mysql/
     networks:
       - be_network
 
 volumes:
-  db_data_vol:
+  db_data:
     external: true
   
 networks:
