@@ -7,7 +7,7 @@ services:
     volumes:
       - ./nginx_default.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
-      - 80:80
+      - "80:80"
     networks:
       - fe_network
 
@@ -20,7 +20,7 @@ services:
       db:
         condition: service_healthy
     ports:
-      - 5000:5000
+      - "5001:5001"
     environment:
       - DATABASE_URL=mysql+pymysql://user:secret@db:3306/recipebook
     command: bash -c "flask db upgrade && flask run"

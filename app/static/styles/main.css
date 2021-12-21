@@ -9,3 +9,28 @@ textarea#directions {
 img {
     max-width: 500px;
 }
+
+.body-content {
+	margin: 16px;
+}
+
+.navbar {
+	padding: 5px 16px;
+	border-radius: 0;
+	border: none;
+	min-height: 80px;
+}
+
+.navbar-brand {
+	margin: 0;
+	padding: 0;
+}
+
+.navbar-brand > img {
+	height: 80px;
+}
+
+.nav-item {
+	padding-top: 10px;
+	font-size: 28px;
+}

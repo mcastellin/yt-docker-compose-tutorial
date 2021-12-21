@@ -1,13 +1,32 @@
-from app import app, db
-from app.models import Recipe
-from app.forms import RecipeForm
+import logging
+import os
+
 from flask import render_template, flash, redirect
+
+from app import app, db
+from app.forms import RecipeForm
+from app.models import Recipe
+import yaml
 
 
 def save_recipe(recipe, form):
     form.populate_obj(recipe)
     db.session.add(recipe)
     db.session.commit()
+
+
+def import_sample_data(path):
+    with open(path, mode='r') as file:
+        recipe_definition = yaml.load(file, Loader=yaml.FullLoader)
+        Recipe.query.filter_by(name=recipe_definition["name"]).delete()
+        db.session.commit()
+
+        obj = Recipe()
+        obj.name = recipe_definition["name"]
+        obj.ingredients = recipe_definition["ingredients"]
+        obj.directions = recipe_definition["directions"]
+        db.session.add(obj)
+        db.session.commit()
 
 
 @app.route("/")
@@ -45,3 +64,15 @@ def new_recipe():
         return redirect("/index")
 
     return render_template("edit.html", title="Create recipe", form=form)
+
+
+@app.route("/generate/test-data", methods=["GET"])
+def generate_test_data():
+    for root, _, files in os.walk("app/sample_data"):
+        for f in files:
+            if f.split(".")[-1] in ["yaml", "yml"]:
+                file_path = os.path.join(root, f)
+                logging.info(f"Importing sample recipe {file_path}")
+                import_sample_data(file_path)
+
+    return redirect("/index")

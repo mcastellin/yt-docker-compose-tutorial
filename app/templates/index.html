@@ -1,16 +1,23 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-<h1>Welcome to My Recipe Book!</h1>
+    <h1>Welcome to My Recipe Book!</h1>
 
-<div>
-    <h2>All recipes</h2>
-    <ul>
-        {% for recipe in recipes %}
-        <li><a href="{{ url_for('recipe', id=recipe.id) }}">
-            {{ recipe.name }}
-        </a></li>
-        {% endfor %}
-    </ul>
-</div>
+    <div>
+        {% if recipes|length > 0 %}
+            <h2>All recipes</h2>
+            <ul>
+                {% for recipe in recipes %}
+                    <li><a href="{{ url_for('recipe', id=recipe.id) }}">
+                        {{ recipe.name }}
+                    </a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <h2>No recipes found.</h2>
+            <h4><a href="{{ url_for('generate_test_data') }}">
+                >> Click here to load test recipes.
+            </a></h4>
+        {% endif %}
+    </div>
 {% endblock %}

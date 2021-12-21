@@ -12,5 +12,4 @@ migrate = Migrate(app, db)
 bootstrap = Bootstrap(app)
 markdown = Markdown(app)
 
-
 from app import routes, models

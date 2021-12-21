@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-<h1>{{ recipe.name }}</h1>
-<a href="{{ url_for('edit_recipe', id=recipe.id) }}">[edit]</a>
+    <h1>{{ recipe.name }}</h1>
+    <a href="{{ url_for('edit_recipe', id=recipe.id) }}">[edit]</a>
 
-<h2>Ingredients</h2>
-<div><p>{{ recipe.ingredients | markdown }}</p></div>
+    <h2>Ingredients</h2>
+    <div><p>{{ recipe.ingredients | markdown }}</p></div>
 
-<h2>Directions</h2>
-<div><p>{{ recipe.directions | markdown }}</p></div>
+    <h2>Directions</h2>
+    <div><p>{{ recipe.directions | markdown }}</p></div>
 {% endblock %}
